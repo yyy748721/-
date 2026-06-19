@@ -21,7 +21,7 @@ body{background:#fff;padding:20px 16px;}
 .tip-list{font-size:14px;color:#333;line-height:1.8}
 .tip-list p{margin:6px 0}
 .red-text{color:#ff3b30;font-weight:500;margin-top:12px}
-/* 悬浮客服按钮，a标签直接做按钮，修复跳转失效问题 */
+/* 悬浮客服按钮样式 */
 .fixed-service-btn{
     position:fixed;
     right:24px;
@@ -36,6 +36,7 @@ body{background:#fff;padding:20px 16px;}
     align-items:center;
     gap:6px;
     text-decoration:none;
+    cursor:pointer;
 }
 .contact-btn{
     position:fixed;
@@ -52,9 +53,35 @@ body{background:#fff;padding:20px 16px;}
     gap:6px;
 }
 a{text-decoration:none;color:white;}
+/* 弹窗遮罩层样式 */
+.img-modal{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.85);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+    padding:20px;
+}
+.img-modal img{
+    max-width:100%;
+    max-height:90vh;
+    border-radius:8px;
+}
+/* 隐藏音频控件 */
+audio{display:none;}
 </style>
 </head>
 <body>
+<!-- 背景音乐 -->
+<audio id="bgMusic" loop preload="auto" crossorigin="anonymous">
+    <source src="https://mp3tourl.com/audio/1781834670820-70b361c6-b7a7-4fb6-b7c1-a41e50973891.mp3" type="audio/mpeg">
+
+
 <div class="top-bar">
     <div class="back">×</div>
     <div class="title">LV小店</div>
@@ -87,14 +114,45 @@ a{text-decoration:none;color:white;}
     </div>
 </div>
 
-<!-- 修复后的客服按钮，使用官方网页QQ链接，不会提示链接无效 -->
-<a class="fixed-service-btn" href="https://wpa.qq.com/msgrd?v=3&uin=2532421938&site=qq&menu=yes" target="_blank">客服</a>
+<!-- 客服按钮：点击弹出大图 -->
+<div class="fixed-service-btn" onclick="openImg()">客服</div>
+
+<!-- 图片弹窗容器 -->
+<div class="img-modal" id="imgBox" onclick="closeImg()">
+    <img src="https://i.ibb.co/rKFPZBwp/image.jpg" alt="客服图片">
+</div>
 
 <button class="contact-btn">
     <a href="https://yyy748721.github.io/yy/" target="_blank">前往商店</a>
 </button>
 
 <script>
+let hasPlay = false;
+const audio = document.getElementById('bgMusic');
+
+// 页面任意点击/滑动触发播放，仅第一次生效
+document.body.addEventListener('click', playAudioOnce);
+document.body.addEventListener('touchstart', playAudioOnce);
+
+function playAudioOnce(){
+    if(!hasPlay){
+        audio.play().catch(e=>{});
+        hasPlay = true;
+        document.body.removeEventListener('click', playAudioOnce);
+        document.body.removeEventListener('touchstart', playAudioOnce);
+    }
+}
+
+// 打开图片弹窗
+function openImg(){
+    document.getElementById('imgBox').style.display = 'flex';
+}
+// 点击遮罩关闭图片
+function closeImg(){
+    document.getElementById('imgBox').style.display = 'none';
+}
+
+// 表单提交逻辑
 const form = document.getElementById('msgForm');
 form.addEventListener('submit',async e=>{
     e.preventDefault();
