@@ -21,7 +21,7 @@ body{background:#fff;padding:20px 16px;}
 .tip-list{font-size:14px;color:#333;line-height:1.8}
 .tip-list p{margin:6px 0}
 .red-text{color:#ff3b30;font-weight:500;margin-top:12px}
-/* 悬浮客服按钮，和前往商店样式统一，右侧、在商店按钮上方 */
+/* 悬浮客服按钮，a标签直接做按钮，修复跳转失效问题 */
 .fixed-service-btn{
     position:fixed;
     right:24px;
@@ -35,6 +35,7 @@ body{background:#fff;padding:20px 16px;}
     display:flex;
     align-items:center;
     gap:6px;
+    text-decoration:none;
 }
 .contact-btn{
     position:fixed;
@@ -86,10 +87,8 @@ a{text-decoration:none;color:white;}
     </div>
 </div>
 
-<!-- 悬浮客服按钮，右侧，在前往商店上方 -->
-<button class="fixed-service-btn">
-    <a href="tencent://message/?uin=2532421938&Site=&Menu=yes">客服</a>
-</button>
+<!-- 修复后的客服按钮，使用官方网页QQ链接，不会提示链接无效 -->
+<a class="fixed-service-btn" href="https://wpa.qq.com/msgrd?v=3&uin=2532421938&site=qq&menu=yes" target="_blank">客服</a>
 
 <button class="contact-btn">
     <a href="https://yyy748721.github.io/yy/" target="_blank">前往商店</a>
