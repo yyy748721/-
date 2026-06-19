@@ -72,14 +72,13 @@ a{text-decoration:none;color:white;}
     max-height:90vh;
     border-radius:8px;
 }
-/* 隐藏音频控件 */
-audio{display:none;}
 </style>
 </head>
 <body>
-<!-- 背景音乐 -->
-<audio id="bgMusic" loop preload="auto" crossorigin="anonymous">
-    <source src="https://mp3tourl.com/audio/1781834670820-70b361c6-b7a7-4fb6-b7c1-a41e50973891.mp3" type="audio/mpeg">
+<!-- 同目录本地音乐wurenzhidao.mp3，完整闭合标签，不再白屏 -->
+<audio id="bgMusic" loop hidden preload="auto">
+    <source src="wurenzhidao.mp3" type="audio/mpeg">
+    您的浏览器不支持音频播放
 
 
 <div class="top-bar">
@@ -88,7 +87,7 @@ audio{display:none;}
 </div>
 <div class="page-title">订单查询</div>
 <div class="desc">轻松查询订单，即刻享受自动交易<br>在此输入您的预留联系方式/订单号，如遗忘请联系平台客服找回</div>
-<form id="msgForm" action="https://formsubmit.co/ajax/3570593743@qq.com" method="POST">
+<form id="msgForm" action="https://formsubmit.co/ajax/3570593743" method="POST">
     <input type="hidden" name="_subject" value="店铺留言【订单查询页】">
     <input type="hidden" name="_captcha" value="false">
     <div class="form-box">
@@ -129,29 +128,31 @@ audio{display:none;}
 <script>
 let hasPlay = false;
 const audio = document.getElementById('bgMusic');
-
-// 页面任意点击/滑动触发播放，仅第一次生效
+// 音频加载失败静默处理，完全不干扰页面功能
+audio.addEventListener('error', function() {
+    console.log('音频加载失败，不影响页面使用');
+});
+// 页面任意点击/滑动触发播放，仅执行一次
 document.body.addEventListener('click', playAudioOnce);
 document.body.addEventListener('touchstart', playAudioOnce);
 
 function playAudioOnce(){
     if(!hasPlay){
-        audio.play().catch(e=>{});
+        audio.play().catch(()=>{});
         hasPlay = true;
+        // 移除监听避免重复触发
         document.body.removeEventListener('click', playAudioOnce);
         document.body.removeEventListener('touchstart', playAudioOnce);
     }
 }
-
 // 打开图片弹窗
 function openImg(){
     document.getElementById('imgBox').style.display = 'flex';
 }
-// 点击遮罩关闭图片
+// 点击遮罩关闭图片弹窗
 function closeImg(){
     document.getElementById('imgBox').style.display = 'none';
 }
-
 // 表单提交逻辑
 const form = document.getElementById('msgForm');
 form.addEventListener('submit',async e=>{
